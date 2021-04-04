@@ -1,1 +1,1 @@
-web: gunicorn Image_Processor.Image_Processor.wsgi
+web: sh -c 'cd ./Image_Processor/ && exec gunicorn Image_Processor.wsgi --log-file -'
