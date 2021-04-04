@@ -1,1 +1,1 @@
-web: gunicorn Image_Processor.wsgi
+web: gunicorn Image_Processor/Image_Processor.wsgi
