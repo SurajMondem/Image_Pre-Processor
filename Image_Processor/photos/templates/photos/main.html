@@ -2,14 +2,35 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="mt-3">
-    <div id="alert-box"></div>
-    <div id="img-box"></div>
-    <form id="p-form" autocomplete="off">
-        {% csrf_token %}
-        {{form | crispy}}
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
-    
+<div class="mt-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Edit Your Image</h5>
+        <div id="img-box" class="text-center card-img-top"></div>
+        <form id="p-form" autocomplete="off">
+            {% csrf_token %}
+            {{form | crispy}}
+            <div id ="btn-box1" class="not-visible mt-3 mb-3">
+                <h4>Category 1</h4>
+                <button type="submit" class="btn btn-primary" data-filter='NO_FILTER'>no filter</button>
+                <button type="submit" class="btn btn-primary" data-filter='COLORIZED'>colorized</button>
+                <button type="submit" class="btn btn-primary" data-filter='GRAYSCALE'>grayscale</button>
+                <button type="submit" class="btn btn-primary" data-filter='BLURRED'>blurred</button>
+                <button type="submit" class="btn btn-primary" data-filter='BINARY'>binary</button>
+                <button type="submit" class="btn btn-primary" data-filter='INVERT'>invert</button>
+            </div>
+            <div id="btn-box2" class="not-visible mt-3 mb-3">
+                <h4>Category 2</h4>
+                <button type="submit" class="btn btn-primary" data-filter='BOX_BLUR'>box blur</button>
+                <button type="submit" class="btn btn-primary" data-filter='EMBOSS'>emboss</button>
+                <button type="submit" class="btn btn-primary" data-filter='IDENTITY'>identity</button>
+                <button type="submit" class="btn btn-primary" data-filter='HIGHPASS'>highpass</button>
+                <button type="submit" class="btn btn-primary" data-filter='SHARPEN'>sharpen</button>
+            </div>
+            <div id="alert-box"></div>
+        </form>
+        <div id="btn-box" class="mt-3 mb-3">
+            <button onclick="location.reload();" class="btn btn-danger">Reset</button>
+        </div>
+    </div>
 </div>
 {% endblock content %}

@@ -1,4 +1,6 @@
 import cv2
+import numpy as np
+from .algorithms.Convolution import convolution
 
 
 def get_filtered_image(image, action):
@@ -26,5 +28,20 @@ def get_filtered_image(image, action):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         _, img = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
         filtered = cv2.bitwise_not(img)
+    elif action == 'BOX_BLUR':
+        kernel = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+        filtered = convolution(image, kernel, average=True)
+    elif action == 'EMBOSS':
+        kernel = np.array([[-2, -1, 0], [-1, 1, 1], [0, 1, 2]])
+        filtered = convolution(img, kernel, average=False)
+    elif action == 'SHARPEN':
+        kernel = np.array([[-1, -1, -1], [-1, 11, -1], [-1, -1, -1]])
+        filtered = convolution(img, kernel, average=False)
+    elif action == 'IDENTITY':
+        kernel = np.array([[0, 0, 0], [0, 1, 0], [0, 0, 0]])
+        filtered = convolution(img, kernel, average=False)
+    elif action == 'HIGHPASS':
+        kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
+        filtered = convolution(img, kernel, average=False)
 
     return filtered

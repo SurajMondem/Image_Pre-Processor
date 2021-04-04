@@ -2,6 +2,12 @@ const alertBox = document.getElementById('alert-box')
 const imgBox = document.getElementById('img-box')
 const form = document.getElementById('p-form')
 
+const btnBox1 = document.getElementById('btn-box1')
+const btnBox2 = document.getElementById('btn-box2')
+
+const btns = [...btnBox1.children, ...btnBox2.children]
+
+
 const name = document.getElementById('id_name')
 const description = document.getElementById('id_description')
 const image = document.getElementById('id_image')
@@ -11,6 +17,8 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 console.log(csrf)
 
 const url = ""
+const mediaURL = window.location.href + 'media/'
+console.log(mediaURL)
 
 const handleAlerts = (type, text) => {
     alertBox.innerHTML = `<div class ="alert alert-${type}" role="alert">
@@ -18,13 +26,24 @@ const handleAlerts = (type, text) => {
                         </div>`
 }
 
-
 image.addEventListener('change', ()=> {
     const img_data = image.files[0]
     const url = URL.createObjectURL(img_data)
     console.log(url)
-    imgBox.innerHTML = `<img src="${url}" width="100%">`
+    imgBox.innerHTML = `<img src="${url}" width="50%">`
+    btnBox1.classList.remove('not-visible')
+    btnBox2.classList.remove('not-visible')
+
 })
+
+let id = null
+let filter = null
+
+btns.forEach(btn => btn.addEventListener('click', ()=> {
+    filter = btn.getAttribute('data-filter')
+    console.log(filter)
+}))
+
 
 form.addEventListener('submit', e=>{
     e.preventDefault()
@@ -34,6 +53,8 @@ form.addEventListener('submit', e=>{
     fd.append('name', name.value)
     fd.append('description', description.value)
     fd.append('image', image.files[0])
+    fd.append('action', filter)
+    fd.append('id', id)
 
     $.ajax({
         type: 'POST',
@@ -41,16 +62,15 @@ form.addEventListener('submit', e=>{
         enctype: 'multipart/form-data',
         data: fd,
         success: function (response) {
-            console.log(response)
-            const successText = `Successfully saved ${response.name}`
+            const data = JSON.parse(response.data)
+            console.log(data)
+            id = data[0].pk
+            imgBox.innerHTML = `<img src="${mediaURL + data[0].fields.image}" width="50%">`
+            const successText = `Successfully saved ${data[0].fields.name}`
             handleAlerts('success', `${successText}`)
             setTimeout(() => {
                 alertBox.innerHTML = ""
-                imgBox.innerHTML = ""
-                name.value = ""
-                image.value = ""
-                description.value = ""
-            }, 2000);
+            }, 3000);
         },
         error: function (error) {
             console.log(error)
@@ -60,7 +80,6 @@ form.addEventListener('submit', e=>{
         contentType: false,
         processData: false,
     })
-
 
 })
 
