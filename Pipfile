@@ -6,12 +6,13 @@ name = "pypi"
 [packages]
 pillow = "*"
 django = "*"
+opencv-python-headless = "*"
 opencv-python = "*"
 numpy = "*"
 django-crispy-forms = "*"
 django-heroku = "*"
 gunicorn = "*"
-opencv-python-headless = "*"
+
 django-cloudinary-storage = "*"
 
 [dev-packages]
