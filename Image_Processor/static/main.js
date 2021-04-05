@@ -17,7 +17,7 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 console.log(csrf)
 
 const url = ""
-const mediaURL = window.location.href + 'media/'
+const mediaURL = "https://res.cloudinary.com/hsbud24fu/image/upload/v1617641939/"
 console.log(mediaURL)
 
 const handleAlerts = (type, text) => {

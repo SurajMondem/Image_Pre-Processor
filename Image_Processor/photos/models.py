@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 from django.core.files.base import ContentFile
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 

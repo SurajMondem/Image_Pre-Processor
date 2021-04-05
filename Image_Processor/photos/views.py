@@ -1,9 +1,13 @@
-from django.shortcuts import render
 from .forms import PhotoForm
 from .models import Photo
+
+from django.shortcuts import render
 from django.http import JsonResponse
-import json
 from django.core import serializers
+
+import json
+
+
 # Create your views here.
 
 

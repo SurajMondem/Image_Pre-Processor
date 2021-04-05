@@ -12,6 +12,7 @@ django-crispy-forms = "*"
 django-heroku = "*"
 gunicorn = "*"
 opencv-python-headless = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 

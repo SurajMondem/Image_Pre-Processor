@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'c6f11$+a15c5c!f@ugp9z@lsoq-e1fm32r8q59%aix&wjtk9q6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+
     'django.contrib.staticfiles',
 
+    'cloudinary_storage',
+    'cloudinary',
     'photos',
     'crispy_forms',
 ]
@@ -133,3 +136,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Activate Django-Heroku
 django_heroku.settings(locals())
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hsbud24fu',
+    'API_KEY': '928894116471355',
+    'API_SECRET': '-j7iFftFmVmPDNezbUzBLGHdAkg',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
