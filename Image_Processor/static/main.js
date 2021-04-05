@@ -7,6 +7,8 @@ const btnBox2 = document.getElementById('btn-box2')
 
 const btns = [...btnBox1.children, ...btnBox2.children]
 
+const progressbox = document.getElementById('progress-box')
+
 
 const name = document.getElementById('id_name')
 const description = document.getElementById('id_description')
@@ -33,7 +35,7 @@ image.addEventListener('change', ()=> {
     imgBox.innerHTML = `<img src="${url}" width="50%">`
     btnBox1.classList.remove('not-visible')
     btnBox2.classList.remove('not-visible')
-
+    progressbox.classList.remove('not-visible')
 })
 
 let id = null
@@ -51,7 +53,6 @@ form.addEventListener('submit', e=>{
     const fd = new FormData()
     fd.append('csrfmiddlewaretoken', csrf[0].value)
     fd.append('name', name.value)
-    fd.append('description', description.value)
     fd.append('image', image.files[0])
     fd.append('action', filter)
     fd.append('id', id)
@@ -61,16 +62,43 @@ form.addEventListener('submit', e=>{
         url: url,
         enctype: 'multipart/form-data',
         data: fd,
+        xhr: function() {
+            const xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener('progress', e=>{
+                
+                if(e.lengthComputable){
+                    const percent = e.loaded / e.total * 100
+                    imgBox.innerHTML = ""
+                    progressbox.innerHTML = `<div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p> ${percent.toFixed(1)}% </p>`
+                }
+
+
+            })
+            return xhr
+        },
         success: function (response) {
-            const data = JSON.parse(response.data)
-            console.log(data)
-            id = data[0].pk
-            imgBox.innerHTML = `<img src="${mediaURL + data[0].fields.image}" width="50%">`
-            const successText = `Successfully saved ${data[0].fields.name}`
-            handleAlerts('success', `${successText}`)
-            setTimeout(() => {
-                alertBox.innerHTML = ""
-            }, 3000);
+            
+            if(response.data == 'Error'){
+                imgBox.innerHTML = `<div class ="alert alert-danger" role="alert">
+                            Oops.. Upload Image Smaller than 15MB
+                        </div>`
+                handleAlerts('danger', 'Oops.. Upload Image Smaller than 15MB')
+            }
+            else{
+                const data = JSON.parse(response.data)
+                console.log(data)
+                id = data[0].pk
+                imgBox.innerHTML = `<img src="${mediaURL + data[0].fields.image}" width="50%">`
+                const successText = `Successfully saved ${data[0].fields.name}`
+                handleAlerts('success', `${successText}`)
+                progressbox.innerHTML = ""
+                setTimeout(() => {
+                    alertBox.innerHTML = ""
+                }, 3000);
+            }
         },
         error: function (error) {
             console.log(error)

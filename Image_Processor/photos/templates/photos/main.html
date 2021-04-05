@@ -17,6 +17,7 @@
     <div class="card-body">
         <h5 class="card-title">Edit Your Image</h5>
         <div id="img-box" class="text-center card-img-top"></div>
+        <div id="progress-box" class="text-center"></div>
         <form id="p-form" autocomplete="off">
             {% csrf_token %}
             {{form | crispy}}

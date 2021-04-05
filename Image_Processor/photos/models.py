@@ -5,6 +5,7 @@ import numpy as np
 from io import BytesIO
 from django.core.files.base import ContentFile
 from cloudinary.models import CloudinaryField
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -23,10 +24,20 @@ ACTION_CHOICES = (
 )
 
 
+def validate_image(image):
+    file_size = image.file.size
+    # limit_kb = 150
+    # if file_size > limit_kb * 1024:
+    #     raise ValidationError("Max size of file is %s KB" % limit)
+
+    limit_mb = 15
+    if file_size > limit_mb * 1024 * 1024:
+        raise ValidationError("Max size of file is %s MB" % limit_mb)
+
+
 class Photo(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images', validators=[validate_image])
     created = models.DateTimeField(auto_now_add=True)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES, null=True)
 
