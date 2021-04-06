@@ -14,9 +14,6 @@ import json
 
 def photo_add_view(request):
     form = PhotoForm(request.POST or None, request.FILES or None)
-    context = {
-        'form': form,
-    }
 
     if request.is_ajax():
         pic_id = json.loads(request.POST.get('id'))
@@ -35,5 +32,9 @@ def photo_add_view(request):
         obj.save()
         data = serializers.serialize('json', [obj])
         return JsonResponse({'data': data})
+
+    context = {
+        'form': form,
+    }
 
     return render(request, 'photos/main.html', context)
