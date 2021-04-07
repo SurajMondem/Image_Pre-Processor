@@ -65,7 +65,6 @@ form.addEventListener('submit', e=>{
         xhr: function() {
             const xhr = new window.XMLHttpRequest();
             xhr.upload.addEventListener('progress', e=>{
-                
                 if(e.lengthComputable){
                     const percent = e.loaded / e.total * 100
                     imgBox.innerHTML = ""
@@ -75,30 +74,21 @@ form.addEventListener('submit', e=>{
                                             <p> ${percent.toFixed(1)}% </p>`
                 }
 
-
             })
             return xhr
         },
         success: function (response) {
-            
-            if(response.data == 'Error'){
-                imgBox.innerHTML = `<div class ="alert alert-danger" role="alert">
-                            Oops.. Upload Image Smaller than 15MB
-                        </div>`
-                handleAlerts('danger', 'Oops.. Upload Image Smaller than 15MB')
-            }
-            else{
-                const data = JSON.parse(response.data)
-                console.log(data)
-                id = data[0].pk
-                imgBox.innerHTML = `<img src="${mediaURL + data[0].fields.image}" width="50%">`
-                const successText = `Successfully saved ${data[0].fields.name}`
-                handleAlerts('success', `${successText}`)
-                progressbox.innerHTML = ""
-                setTimeout(() => {
-                    alertBox.innerHTML = ""
-                }, 3000);
-            }
+                
+            const data = JSON.parse(response.data)
+            console.log(data)
+            id = data[0].pk
+            imgBox.innerHTML = `<img src="${mediaURL + data[0].fields.image}" width="50%">`
+            const successText = `Successfully saved ${data[0].fields.name}`
+            handleAlerts('success', `${successText}`)
+            progressbox.innerHTML = ""
+            setTimeout(() => {
+                alertBox.innerHTML = ""
+            }, 3000);
         },
         error: function (error) {
             console.log(error)

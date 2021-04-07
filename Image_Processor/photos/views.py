@@ -22,9 +22,6 @@ def photo_add_view(request):
         if pic_id is None:
             if form.is_valid():
                 obj = form.save(commit=False)
-            else:
-                return JsonResponse({'data': 'Error'})
-
         else:
             obj = Photo.objects.get(id=pic_id)
 
