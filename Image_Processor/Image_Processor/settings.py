@@ -140,6 +140,6 @@ django_heroku.settings(locals())
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hovmvonyl',
     'API_KEY': '844997484969655',
-    'API_SECRET': '-gstzoMehut2gk1yYzPGVnmIUAjk',
+    'API_SECRET': 'gstzoMehut2gk1yYzPGVnmIUAjk',
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

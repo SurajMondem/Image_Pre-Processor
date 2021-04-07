@@ -26,7 +26,7 @@ ACTION_CHOICES = (
 
 class Photo(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images/')
     created = models.DateTimeField(auto_now_add=True)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES, null=True)
 
