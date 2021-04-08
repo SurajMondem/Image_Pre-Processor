@@ -93,6 +93,9 @@ form.addEventListener('submit', e=>{
         error: function (error) {
             console.log(error)
             handleAlerts('danger', 'Oops.. something went wrong')
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
         },
         cache: false,
         contentType: false,
